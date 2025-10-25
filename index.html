@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Entre Prompts e Post‑Its – Guia & Flashcards</title>
+  <meta name="description" content="Site simplificado com guia da palestra em PDF e flashcards interativos sobre Requisitos, Ágil e IA."/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <style>
+    :root{ --bg:#0b1020; --surface:rgba(255,255,255,.06); --card:rgba(255,255,255,.08); --text:#e8ecf3; --brand:#7cf0ff; --brand-2:#b07cff; --muted:#94a3b8; }
+    [data-theme="light"]{ --bg:#f6f8ff; --surface:#ffffff; --card:#ffffff; --text:#0d1224; --brand:#006eff; --brand-2:#7b3cff; --muted:#546176 }
+    html,body{background:linear-gradient(180deg,var(--bg),#0d0f1a 40%,var(--bg));color:var(--text);scroll-behavior:smooth}
+    .section{padding:90px 0}
+    .navbar{backdrop-filter:saturate(140%) blur(10px);background:rgba(12,14,28,.6)!important;border-bottom:1px solid rgba(255,255,255,.08)}
+    .brand-gradient{background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .btn-brand{background:linear-gradient(90deg,var(--brand),var(--brand-2));border:0;color:#08111a}
+    .glass{background:var(--surface);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:20px}
+    .hero{position:relative;overflow:hidden}
+    .orb{position:absolute;filter:blur(60px);opacity:.6}
+    .orb.o1{width:360px;height:360px;background:#00ffff22;left:-80px;top:-80px}
+    .orb.o2{width:420px;height:420px;background:#8a2be222;right:-120px;bottom:-120px}
+    .badge-chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.08)}
+    .flip{perspective:1000px}
+    .flip-card{position:relative;transform-style:preserve-3d;transition:transform .7s;min-height:220px}
+    .flip-card .front,.flip-card .back{position:absolute;inset:0;padding:22px;border-radius:16px;background:var(--card);border:1px solid rgba(255,255,255,.08);backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center}
+    .flip-card .back{transform:rotateY(180deg)}
+    .flip.active .flip-card{transform:rotateY(180deg)}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:.2rem .4rem;border-radius:.5rem}
+    .footer{border-top:1px solid rgba(255,255,255,.08)}
+    .toast-container{z-index:1080}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#top"><span class="brand-gradient">Prompts & Post‑Its</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto gap-lg-2 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#top">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#flashcards">Flashcards</a></li>
+          <li class="nav-item ms-2"><button id="themeToggle" class="btn btn-sm btn-outline-light" aria-label="Alternar tema"><i class="bi bi-moon-stars"></i></button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top" class="hero section pt-5">
+    <div class="orb o1"></div><div class="orb o2"></div>
+    <div class="container position-relative text-center">
+      <h1 class="display-5 fw-bold mb-3">Entre <span class="brand-gradient">Prompts</span> e <span class="brand-gradient">Post‑Its</span></h1>
+      <p class="lead mx-auto" style="max-width:700px">Como unir métodos ágeis e inteligência artificial para transformar a análise de requisitos em uma experiência leve, criativa e colaborativa.</p>
+      <div class="glass p-3 mx-auto mt-3" style="max-width:700px">
+        <small class="text-secondary d-block">Frase de impacto</small>
+        <p class="mb-0">“Se antes o analista escrevia o requisito, agora ele ensina a máquina a entender o requisito.”</p>
+      </div>
+      <div class="mt-4">
+          <a href="guia-palestra.pdf" class="btn btn-brand btn-lg" download> <i class="bi bi-file-earmark-pdf me-2"></i>Baixar Guia da Palestra (PDF) </a>
+    </div>
+
+    </div>
+  </header>
+
+  <section id="flashcards" class="section">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end mb-3 flex-wrap gap-2">
+        <div>
+          <h2 class="fw-bold mb-0">Flashcards de Requisitos & Ágil + IA</h2>
+          <small class="text-secondary">Clique para virar. Use <span class="kbd">Barra de Espaço</span> para avançar.</small>
+        </div>
+        <div class="d-flex gap-2">
+          <button id="shuffleCards" class="btn btn-outline-light btn-sm" type="button"><i class="bi bi-shuffle"></i> Embaralhar</button>
+          <button id="prevCard" class="btn btn-outline-light btn-sm" type="button"><i class="bi bi-arrow-left"></i></button>
+          <button id="nextCard" class="btn btn-outline-light btn-sm" type="button"><i class="bi bi-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" id="cardsGrid"></div>
+    </div>
+  </section>
+
+  <footer class="footer py-4">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <small class="text-secondary">© 2025</small>
+      <a class="btn btn-outline-light btn-sm" href="#top"><i class="bi bi-arrow-up"></i> Topo</a>
+    </div>
+  </footer>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast text-bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body d-flex align-items-center gap-2"><i class="bi bi-check2-circle text-success"></i><span id="toastMsg">Tudo certo!</span></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const themeToggle=document.getElementById('themeToggle');
+    const savedTheme=localStorage.getItem('theme');
+    if(savedTheme){document.body.setAttribute('data-theme',savedTheme);themeToggle.innerHTML=savedTheme==='light'?'<i class="bi bi-moon-stars"></i>':'<i class="bi bi-sun"></i>';}
+    themeToggle?.addEventListener('click',()=>{const isLight=document.body.getAttribute('data-theme')==='light';document.body.setAttribute('data-theme',isLight?'dark':'light');localStorage.setItem('theme',isLight?'dark':'light');themeToggle.innerHTML=isLight?'<i class="bi bi-moon-stars"></i>':'<i class="bi bi-sun"></i>';});
+
+    const toastEl=document.getElementById('liveToast');const toast=toastEl?new bootstrap.Toast(toastEl):null;function notify(msg){if(!toast)return;document.getElementById('toastMsg').textContent=msg;toast.show();}
+
+    document.getElementById('btnGuiaPDF')?.addEventListener('click',()=>{
+      const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'pt',format:'a4'});
+      const lh=18;let y=60;const left=56;const right=540;
+      doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text('Guia da Palestra — Entre Prompts e Post‑Its',left,y);y+=lh;
+      doc.setFont('helvetica','normal');doc.setFontSize(12);
+      const addPara=(txt)=>{const lines=doc.splitTextToSize(txt,right-left);lines.forEach(line=>{if(y>760){doc.addPage();y=60;}doc.text(line,left,y);y+=lh;});};
+      addPara('Como unir métodos ágeis e IA para transformar a análise de requisitos em uma experiência leve, criativa e colaborativa.');
+      y+=6;doc.setFont('helvetica','bold');doc.text('Frase de Impacto',left,y);y+=lh;doc.setFont('helvetica','normal');
+      addPara('“Se antes o analista escrevia o requisito, agora ele ensina a máquina a entender o requisito.”');
+      y+=6;doc.setFont('helvetica','bold');doc.text('Pontos‑chave',left,y);y+=lh;doc.setFont('helvetica','normal');
+      ['Post‑it x Prompt','Ágil + IA no dia a dia','Perfil do analista orquestrador','Fluxo: Brainstorm → IA → Documentação → Revisão → Backlog','Ética: curadoria, privacidade e autoria'].forEach(t=>addPara('• '+t));
+      doc.save('guia-palestra.pdf');notify('Guia gerado com sucesso!');
+    });
+
+    const seedCards=[
+      {q:'O que é um Critério de Aceite (BDD)?',a:'Conjunto de condições verificáveis que definem quando uma história está “pronta” (Given/When/Then).'},
+      {q:'Quando usar post‑it em vez de prompt?',a:'Na fase divergente: empatia, cocriação, ideação em grupo.'},
+      {q:'Um risco comum no uso de IA?',a:'Alucinações: a IA “inventa” fatos — precisa de curadoria humana.'},
+      {q:'Exemplo de métrica de sucesso em requisitos?',a:'Tempo médio para refinar HU reduzido em 30%.'},
+      {q:'Qual a vantagem do planning assistido por IA?',a:'Acelera a escrita de HU e CA, mantendo padrão e rastreabilidade.'},
+      {q:'O que é “Curadoria de IA”?',a:'Processo de avaliar, ajustar e validar respostas de IA antes do uso.'}
+    ];
+
+    let cards=[];try{cards=JSON.parse(localStorage.getItem('cards-v1')||'null')||seedCards.slice();}catch{cards=seedCards.slice();}
+    const grid=document.getElementById('cardsGrid');
+    function renderCards(){if(!grid)return;grid.innerHTML='';cards.forEach((c)=>{const col=document.createElement('div');col.className='col';col.innerHTML=`<div class="flip h-100"><div class="flip-card" tabindex="0"><div class="front"><h6 class="mb-2"><i class="bi bi-question-circle me-2"></i>Pergunta</h6><p>${c.q}</p></div><div class="back"><h6 class="mb-2"><i class="bi bi-lightbulb me-2"></i>Resposta</h6><p>${c.a}</p></div></div></div>`;grid.appendChild(col);});attachFlip();}
+    function attachFlip(){grid.querySelectorAll('.flip').forEach(el=>{el.addEventListener('click',()=>el.classList.toggle('active'));el.addEventListener('keypress',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.classList.toggle('active');}});});}
+    renderCards();
+
+    let currentIdx=0;function go(delta){if(!grid)return;const tiles=[...grid.querySelectorAll('.flip')];if(!tiles.length)return;currentIdx=(currentIdx+delta+tiles.length)%tiles.length;tiles[currentIdx].scrollIntoView({behavior:'smooth',block:'center'});tiles[currentIdx].classList.add('active');}
+    document.getElementById('shuffleCards')?.addEventListener('click',()=>{cards=cards.sort(()=>Math.random()-.5);renderCards();notify('Cards embaralhados!');});
+    document.getElementById('prevCard')?.addEventListener('click',()=>go(-1));
+    document.getElementById('nextCard')?.addEventListener('click',()=>go(1));
+    window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();go(1);}});
+  });
+  </script>
+</body>
+</html>
